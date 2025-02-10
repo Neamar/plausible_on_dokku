@@ -1,8 +1,8 @@
 ![](.github/images/repo_header.png)
 
-[![Plausible](https://img.shields.io/badge/Plausible-2.1.4-blue.svg)](https://github.com/plausible/analytics/releases/tag/v2.1.4)
+[![Plausible](https://img.shields.io/badge/Plausible-2.1.5-blue.svg)](https://github.com/plausible/analytics/releases/tag/v2.1.5)
 [![Dokku](https://img.shields.io/badge/Dokku-Repo-blue.svg)](https://github.com/dokku/dokku)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/d1ceward/plausible_on_dokku/graphs/commit-activity)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/d1ceward-on-dokku/plausible_on_dokku/graphs/commit-activity)
 
 # Run Plausible on Dokku
 
@@ -102,6 +102,16 @@ Restricts registration of new users. Possible values are true (full restriction)
 dokku config:set plausible DISABLE_REGISTRATION=true
 ```
 
+### Persistent storage
+
+To ensure that data persists between restarts, we create a folder on the host machine, grant write permissions to the user defined in the Dockerfile, and instruct Dokku to mount it to the app container. Follow these steps:
+
+```bash
+dokku storage:ensure-directory plausible --chown false
+chown 999:65533 /var/lib/dokku/data/storage/plausible
+dokku storage:mount plausible /var/lib/dokku/data/storage/plausible:/var/lib/plausible
+```
+
 ## Domain
 
 To enable routing for the Plausible app, we need to configure the domain. Execute the following command:
@@ -118,10 +128,10 @@ Begin by cloning this repository onto your local machine.
 
 ```bash
 # Via SSH
-git clone git@github.com:d1ceward/plausible_on_dokku.git
+git clone git@github.com:d1ceward-on-dokku/plausible_on_dokku.git
 
 # Via HTTPS
-git clone https://github.com/d1ceward/plausible_on_dokku.git
+git clone https://github.com/d1ceward-on-dokku/plausible_on_dokku.git
 ```
 
 ### Set up git remote
